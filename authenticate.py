@@ -1,6 +1,6 @@
 import sqlite3
 def authenticate(userPass,SSN):
-    conn = sqlite3.connect('example.db')
+    conn = sqlite3.connect('test.db')
     c = conn.cursor()
     c.execute("SELECT * FROM hashes WHERE ssn = '%s'" % SSN)
     if hash(userPass) == c.fetchone():
