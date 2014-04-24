@@ -1,0 +1,14 @@
+Documented Deviations or Assumptions from the Original Specs
+--------------
+- Data access to Doctors would be granted via a "friend request" type system where a doctor would send a request to a patient who would approve/deny it
+- We decided that only patients would be able to grant access to a doctor/admin's request and NOT vice versa
+	- This is because it does not make sense for a patient to send a doctor a request for the doctor to view the patient's data
+	- This gives patients control of their own privacy as to who is veiwing their data
+- We also agreed that you can think of a doctor's independant practice as basically the same thing as a hospital.
+	- Each has its own medical facility, which contains multiple admins (Hospital Reps) who then preform the adminitrative tasks for a set of doctors
+	- Therefore, we also changed "Hospital Rep" to the more general term "Admin" as "Hospital Rep" implies that they only work at hospitals, which is not the case in our interpretation
+- The Doctor/Patient relationship is many to many
+- The Admin/Doctor relationship is one to many respectively
+- The Hospital/Admin relationship is one to many respectively
+- Adding the functionality to REMOVE doctor data access request by the patient to limit data sharing
+	- In case the patient switches doctors or is completed treatment
