@@ -1,0 +1,16 @@
+logIn(Patient)
+	set up dummy "cookie" variables
+searchDoctor
+	output array of all doctors (dump it)
+addDoctor
+	add row to XREF table
+logOut(Patient)
+	clear dummy "cookie" data
+logIn(Doctor)
+	set up dummy "cookie" variables
+veiwAllMyPatients
+	check to make sure a doctor is logged in
+	check XREF table for rows with doctor's SSN, then join with patient table
+	output array of all patients linked to logged in doctor
+getPatientMedRecords
+	query med records table for given patient SSN
