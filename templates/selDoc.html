@@ -1,0 +1,25 @@
+$def with (form, doctors)
+
+<h2>List of Doctors:</h2>
+<table>
+	<tr>
+		<td>Doctor_ID | </td>
+        <td>Doctor_Name | </td>
+        <td>Doctor_Address | </td>
+        <td>Doctor_Phone</td>
+    </tr>
+$for d in doctors:
+    <tr>
+       	<td>$d.Doctor_ID</td>
+        <td>$d.Doctor_Name</td>
+        <td>$d.Doctor_Address</td>
+        <td>$d.Doctor_Phone</td>
+    </tr>
+</table>
+
+<form name="main" method="post"> 
+$:form.render()
+<input type="submit" />
+</form>
+
+<br><a href="/">HOME</a><br />

@@ -1,0 +1,24 @@
+$def with (records)
+
+<h2>List of Doctors:</h2>
+<table>
+	<tr>
+       	<td>Record_ID | </td>
+        <td>Patient_ID | </td>
+        <td>Patient_Record | </td>
+        <td>Date_Created | </td>
+		<td>Last_Updated_By | </td>
+		<td>Last_Updated_Date | <td>
+    </tr>
+$for r in records:
+    <tr>
+       	<td>$r.Record_ID</td>
+        <td>$r.Patient_ID</td>
+        <td>$r.Patient_Record</td>
+        <td>$r.Date_Created</td>
+		<td>$r.Last_Updated_By</td>
+		<td>$r.Last_Updated_Date<td>
+    </tr>
+</table>
+
+<br><a href="/">HOME</a><br />

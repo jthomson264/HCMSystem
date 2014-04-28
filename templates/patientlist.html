@@ -1,0 +1,22 @@
+$def with (patients)
+
+<h2>List of Patients:</h2>
+<table>
+    <tr>
+        <td>Patient_Name | </td>
+        <td>Patient_DOB | </td>
+        <td>Patient_Address | </td>
+		<td>Patient_Phone | </td>
+        <td>Emergency_Contact | </td>
+    </tr>
+$for p in patients:
+    <tr>
+        <td>$p.Patient_Name</td>
+        <td>$p.Patient_DOB</td>
+        <td>$p.Patient_Address</td>
+		<td>$p.Patient_Phone</td>
+        <td>$p.Emergency_Contact</td>
+    </tr>
+</table>
+
+<br><a href="/">HOME</a><br />
