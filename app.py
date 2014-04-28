@@ -47,12 +47,12 @@ class Select_Doctor:
 			return render.selDoc(form=form_data, doctors=doc_data)
 		else:
 			return "You have given access rights to doctor # %s to view your profile" % (form_data['Please enter selected Doctor ID'].value)
-			
+
 class Login:
-    def GET(self):
+	def GET(self):
 		form_data = login()
 		return form_data.render()
-	
+
 	def POST(self):
 		# TODO : put login routine here
 		return render.index()
@@ -62,7 +62,7 @@ class Get_Doctors_Pats:
 		# TODO: get doctor ID (dID) from the session(?) are we using sessions?
 		pat_data = model.get_doctors_patients(dID)
 		return render.patientlist(patients=pat_data)
-		
+
 class Get_Pat_Records:
 	def GET(self):
 		# TODO: get patient ID (pID) from the session(?) are we using sessions?
