@@ -9,8 +9,6 @@ render = web.template.render('templates/')
 ### Register URLs
 urls = (
     '/', 'Index',
-    '/loginPat', 'Login_Pat',
-    '/loginDoc', 'Login_Doc',
 	'/selDoc', 'Select_Doctor',
 	'/getPats', 'Get_Doctors_Pats',
 	'/getRec', 'Get_Pat_Records',
@@ -50,18 +48,14 @@ class Select_Doctor:
 		else:
 			return "You have given access rights to doctor # %s to view your profile" % (form_data['Please enter selected Doctor ID'].value)
 			
-## NOT SURE IF WE ARE DOING DUMMY LOGIN OR LOGIN/SESSIONS...
-class Login_Pat:
+class Login:
     def GET(self):
-		# TODO : runs when Login Patient is clicked
 		form_data = login()
 		return form_data.render()
-		
-## NOT SURE IF WE ARE DOING DUMMY LOGIN OR NOT...
-class Login_Doc:
-    def GET(self):
-		# TODO : runs when Login Dcotor is clicked
-        return web.seeother('/')
+	
+	def POST(self):
+		# TODO : put login routine here
+		return render.index()
 
 class Get_Doctors_Pats:
 	def GET(self):
