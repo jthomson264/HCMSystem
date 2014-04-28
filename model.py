@@ -16,6 +16,7 @@ class HCMS_Model:
 					date_created TEXT NOT NULL)		
 			''')
 
+	# LEFT THIS EXAMPLE IN HERE TO DEMONSTRATE HOW TO INSERT :
     def create(self, nick):
         # Model is a good place to handle all logic related to the database
         # Such as creation times, serializing data, dealing with SQL injection
