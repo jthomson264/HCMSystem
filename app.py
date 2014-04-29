@@ -23,7 +23,7 @@ model = HCMS_Model(db)
 
 ### Initialize the session
 if web.config.get('_session') is None:
-    session = web.session.Session(app, web.session.DiskStore('sessions'), {'loggedIn': 0})
+    session = web.session.Session(app, web.session.DiskStore('sessions'), {'loggedIn': 0, 'SSN': 0})
     web.config._session = session
 else:
     session = web.config._session
@@ -69,9 +69,11 @@ class Get_Doctors_Pats:
 
 class Get_Pat_Records:
 	def GET(self):
-		# TODO: get patient ID (pID) from the session(?) are we using sessions?
-		med_data = model.get_medical_records(pID)
-		return render.medrecords(records=med_data)
+		if logged():
+			med_data = model.get_medical_records(session.SSN)
+			return render.medrecords(records=med_data)
+		else:
+			return render.login()
 		
 #################################################################################3
 ### Helper Functions
