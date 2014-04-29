@@ -6,9 +6,6 @@ import random
 ### Init our application
 render = web.template.render('templates/')
 
-### sessions don't work in debug mode because it interferes with reloading
-web.config.debug = False
-
 ### Register URLs
 urls = (
     '/', 'Index',
@@ -25,12 +22,16 @@ db = web.database(dbn='sqlite', db='HCMS_DB/HCMS_DB.sqlite')
 model = HCMS_Model(db)
 
 ### Initialize the session
-store = web.session.DiskStore('sessions')
-session = web.session.Session(app, store, initializer={'loggedIn': 0, 'privilege': 0})
+if web.config.get('_session') is None:
+    session = web.session.Session(app, web.session.DiskStore('sessions'), {'loggedIn': 0})
+    web.config._session = session
+else:
+    session = web.config._session
 
 ### Define Forms
 selDocForm = form.Form( form.Textbox("Please enter selected Doctor ID") )
 
+#################################################################################
 ### Define classes
 class Index:
     def GET(self):
@@ -71,16 +72,18 @@ class Get_Pat_Records:
 		# TODO: get patient ID (pID) from the session(?) are we using sessions?
 		med_data = model.get_medical_records(pID)
 		return render.medrecords(records=med_data)
-
+		
+#################################################################################3
 ### Helper Functions
 def logged():
     if session.loggedIn==1:
         return True
     else:
-        return False		
-
+        return False	
+		
 application = app.wsgifunc()
 
+#################################################################################
 ### Main
 if __name__=="__main__":
     #model.init_schema()
