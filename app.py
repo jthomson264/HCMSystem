@@ -24,12 +24,6 @@ model = HCMS_Model(db)
 ### Define Forms
 selDocForm = form.Form( form.Textbox("Please enter selected Doctor ID") )
 
-login = form.Form(
-    form.Textbox('username'),
-    form.Password('password'),
-    form.Button('Login'),
-)
-
 ### Define classes
 class Index:
     def GET(self):
@@ -50,9 +44,8 @@ class Select_Doctor:
 
 class Login:
 	def GET(self):
-		form_data = login()
-		return form_data.render()
-
+		return render.login()
+		
 	def POST(self):
 		# TODO : put login routine here
 		return render.index()
