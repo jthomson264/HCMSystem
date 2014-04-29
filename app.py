@@ -3,94 +3,131 @@ from model import HCMS_Model
 from web import form
 import random
 
-### Init our application
+#################################################################################
+### Helper Functions
+def logged():
+	if session['loggedIn']==1:
+		return True
+	else:
+		return False
+
+def getSessionData():
+	print '--'
+	print session['loggedIn']
+	print session['user_id']
+	print session['role']
+	print '--'
+	return
+
+def setSessionData(log, user, role):
+	session['loggedIn'] = log
+	session['user_id'] = user
+	session['role'] = role
+	return
+
+#################################################################################
+### Set HTML template folder
 render = web.template.render('templates/')
 
+#################################################################################
 ### Register URLs
 urls = (
-    '/', 'Index',
+	'/', 'Index',
 	'/selDoc', 'Select_Doctor',
 	'/getPats', 'Get_Doctors_Pats',
 	'/getRec', 'Get_Pat_Records',
 	'/login', 'Login'
 )
 
+#################################################################################
+### Init our application
 app = web.application(urls, globals())
 
+#################################################################################
 ### Open database
 db = web.database(dbn='sqlite', db='HCMS_DB/HCMS_DB.sqlite')
 model = HCMS_Model(db)
 
+#################################################################################
 ### Initialize the session
-if web.config.get('_session') is None:
-    session = web.session.Session(app, web.session.DiskStore('sessions'), 
-		{	'loggedIn': 0, 
-			'user_id': 0,
-			'role': 0
-		})
-    web.config._session = session
-else:
-    session = web.config._session
+# sessions wasnt working so using a regular dictionary to store data...
+session = {'loggedIn': False, 'user_id': 'None', 'role': 'None'}
+#store = web.session.DiskStore('sessions')
+# if web.config.get('_session') is None:
+	# session = web.session.Session(app, store, initializer={'loggedIn': False, 'user_id': 'None', 'role': 'None'})
+	# web.config._session = session
+	# print 'yes'#debug
+# else:
+	# session = web.config._session
+	# print 'no'#debug
 
+setSessionData(False, 'Nick', 'patient')#debug
+
+#################################################################################
 ### Define Forms
 selDocForm = form.Form( form.Textbox("Please enter selected Doctor ID") )
 
 #################################################################################
 ### Define classes
+#################################################################################
 class Index:
-    def GET(self):
+	def GET(self):
 		if logged():
 			return render.index()
 		else:
 			return render.login()
-
+#####################################
 class Select_Doctor:
 	def GET(self):
-		form_data = selDocForm()
-		doc_data = model.get_all_doctors()
-		return render.selDoc(form=form_data, doctors=doc_data)
+		if logged():
+			if session['role']=='patient':
+				form_data = selDocForm()
+				doc_data = model.get_all_doctors()
+				return render.selDoc(form=form_data, doctors=doc_data)
+			else:
+				return render.permErr('patient', session['role'])
+		else:
+			return render.login()
 
 	def POST(self): 
 		form_data = selDocForm()
 		if not form_data.validates(): 
 			return render.selDoc(form=form_data, doctors=doc_data)
 		else:
-			return "You have given access rights to doctor # %s to view your profile" % (form_data['Please enter selected Doctor ID'].value)
-
+			return  render.selDocNotify(form_data['Please enter selected Doctor ID'].value)
+#####################################
 class Login:
 	def GET(self):
 		return render.login()
 		
 	def POST(self):
 		# TODO : put login routine here
+	
 		return render.index()
-
+#####################################
 class Get_Doctors_Pats:
 	def GET(self):
-		# TODO: get doctor ID (dID) from the session(?) are we using sessions?
-		pat_data = model.get_doctors_patients(session.user_id)
-		return render.patientlist(patients=pat_data)
+		if logged():
+			if session['role']=='patient':
+				# TODO: get doctor ID (dID) from the session(?) are we using sessions?
+				pat_data = model.get_doctors_patients(session['user_id'])
+			else:
+				return render.patientlist(patients=pat_data)
+		else:
+			return render.login()
 
+#####################################
 class Get_Pat_Records:
 	def GET(self):
 		if logged():
-			med_data = model.get_medical_records(session.user_id)
+			med_data = model.get_medical_records(session['user_id'])
 			return render.medrecords(records=med_data)
 		else:
 			return render.login()
-		
-#################################################################################3
-### Helper Functions
-def logged():
-    if session.loggedIn==1:
-        return True
-    else:
-        return False	
 		
 application = app.wsgifunc()
 
 #################################################################################
 ### Main
 if __name__=="__main__":
-    #model.init_schema()
-    app.run()
+	app.run()
