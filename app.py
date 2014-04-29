@@ -68,7 +68,7 @@ class Login:
 class Get_Doctors_Pats:
 	def GET(self):
 		# TODO: get doctor ID (dID) from the session(?) are we using sessions?
-		pat_data = model.get_doctors_patients(2)
+		pat_data = model.get_doctors_patients('2')
 		return render.patientlist(patients=pat_data)
 
 class Get_Pat_Records:

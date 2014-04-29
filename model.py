@@ -37,10 +37,10 @@ class HCMS_Model:
 		#output array of all patient data linked to doctor
 		return list(self._db.query('''
 				SELECT *
-				FROM Patients
+				FROM Patient
 				WHERE Patient_ID in (
 					SELECT Patient_ID
-					FROM XREF
+					FROM XRef_Pat_Doc
 					WHERE Doctor_ID = ''' + dID + ')')
 					)
 
