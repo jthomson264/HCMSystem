@@ -37,7 +37,8 @@ urls = (
 	'/selDoc', 'Select_Doctor',
 	'/getPats', 'Get_Doctors_Pats',
 	'/getRec', 'Get_Pat_Records',
-	'/login', 'Login'
+	'/login', 'Login',
+        '/register', 'Register'
 )
 
 #################################################################################
@@ -99,12 +100,15 @@ class Select_Doctor:
 #####################################
 class Register:
 	def GET(self):
-		return render.login()
+		return render.register()
 	def POST(self):
-		#i = web.input()
-		i.username = 'James' #i.username
-		i.password = 'password12345' #i.password
-		model.insertPassword(i.username, i.password)
+		i = web.input()
+		salt = 'not random yet'
+		myhash = hashlib.md5(i.passwd+salt).hexdigest()
+		#i.username = 'James' #i.username
+		#i.password = 'password12345' #i.password
+		
+		model.insert_Password(i.user,salt,myhash)
 		return render.index()
 		
 		
@@ -117,9 +121,8 @@ class Login:
 		pID = i.user
 		print pID
 		print i
-		pID = 5
 		passData = model.get_password(pID)
-		print passData
+		passData = passData[0]
 		salt = passData.Salt
 		
 		pwdhash = hashlib.md5(i.passwd+salt).hexdigest()
@@ -127,10 +130,10 @@ class Login:
 		
 		
 		# check = authdb.execute('select * from Hashes where SSN=? and Hash=?', (i.username, pwdhash))
-		check = (pwdhash == passData.hash)
+		check = (pwdhash == passData.Hash)
 		if check: 
-			session.loggedin = True
-			session.username = i.username
+			session.logged_in = True
+			#session.username = i.username
 			raise web.seeother('/results')   
 		else: return render.base("Those login details don't work.")   
 		# TODO : put login routine here
