@@ -44,7 +44,8 @@ urls = (
 	'/getPats', 'Get_Doctors_Pats',
 	'/getRec', 'Get_Pat_Records',
 	'/login', 'Login',
-	'/register', 'Register'
+	'/register', 'Register',
+	'/logout', 'Logout'
 )
 
 #################################################################################
@@ -114,7 +115,7 @@ class Register:
 		
 		model.insert_Password(i.user,salt,myhash)
 		return render.index()
-		
+#####################################	
 		
 class Login:
 	def GET(self):
@@ -146,7 +147,11 @@ class Login:
 		else: return render.incorrectPass()   
 		# TODO : put login routine here
 		return render.index()
-		
+#####################################
+class Logout:
+	def GET(self):
+		setSessionData(False, 'None', 'None')
+		return render.login()
 #####################################
 class Get_Doctors_Pats:
 	def GET(self):
