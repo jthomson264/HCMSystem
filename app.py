@@ -181,8 +181,9 @@ class Get_Pat_Records:
 #####################################
 ### Use Case: Patient wants to view his own medical records
 class Get_My_Pat_Records:
-		# TODO
-		return
+		def GET(self):
+			# TODO
+			return
 
 #################################################################################
 ### idk what this does I got it from some example code - if it aint broke dont fix it!
