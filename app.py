@@ -2,6 +2,7 @@ import web
 from model import HCMS_Model
 from web import form
 import random
+import hashlib
 
 #################################################################################
 ### Helper Functions
@@ -96,14 +97,45 @@ class Select_Doctor:
 		else:
 			return  render.selDocNotify(form_data['Please enter selected Doctor ID'].value)
 #####################################
+class Register:
+	def GET(self):
+		return render.login()
+	def POST(self):
+		#i = web.input()
+		i.username = 'James' #i.username
+		i.password = 'password12345' #i.password
+		model.insertPassword(i.username, i.password)
+		return render.index()
+		
+		
 class Login:
 	def GET(self):
 		return render.login()
 		
 	def POST(self):
+		i = web.input()
+		pID = i.user
+		print pID
+		print i
+		pID = 5
+		passData = model.get_password(pID)
+		print passData
+		salt = passData.Salt
+		
+		pwdhash = hashlib.md5(i.passwd+salt).hexdigest()
+		
+		
+		
+		# check = authdb.execute('select * from Hashes where SSN=? and Hash=?', (i.username, pwdhash))
+		check = (pwdhash == passData.hash)
+		if check: 
+			session.loggedin = True
+			session.username = i.username
+			raise web.seeother('/results')   
+		else: return render.base("Those login details don't work.")   
 		# TODO : put login routine here
-	
 		return render.index()
+		
 #####################################
 class Get_Doctors_Pats:
 	def GET(self):

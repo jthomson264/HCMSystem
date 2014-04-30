@@ -31,7 +31,10 @@ class HCMS_Model:
 
 	def link_patient_doctor(self, pID, dID):
 		return self._db.insert('XRef_Pat_Doc', Patient_ID=pID, Doctor_ID=dID)
-
+	def get_password(self, User_ID):
+                User_ID = 'fred'
+                return list(self._db.select('Hashes'))#, where='User_ID=$User_ID')
+		
 	def get_doctors_patients(self, dID):
 		#check XREF table for rows with doctor's ID, then join with patient table
 		#output array of all patient data linked to doctor
