@@ -142,9 +142,7 @@ class Login:
 		# check = authdb.execute('select * from Hashes where SSN=? and Hash=?', (i.username, pwdhash))
 		check = (pwdhash == passData.Hash)
 		if check: 
-			#session.logged_in = True
-			#session.username = i.username
-			session['loggedIn']=1
+			setSessionData(True, i.username, 'None') # TODO : NEED TO GET ROLE SOMEHOW
 			raise web.seeother('/')   
 		else: return render.incorrectPass()   
 		# TODO : put login routine here
