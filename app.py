@@ -80,6 +80,7 @@ selDocForm = form.Form( form.Textbox("Please enter selected Doctor ID") )
 class Index:
 	def GET(self):
 		if logged():
+			#session['role']='doctor' # DEBUG
 			return render.index()
 		else:
 			return render.login()
@@ -93,7 +94,7 @@ class Select_Doctor:
 				doc_data = model.get_all_doctors()
 				return render.selDoc(form=form_data, doctors=doc_data)
 			else:
-				return render.permErr('patient', getRole())
+				return render.permErr('Patient', getRole())
 		else:
 			return render.login()
 

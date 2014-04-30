@@ -39,7 +39,7 @@ class HCMS_Model:
 		return list(self._db.select('Hashes',myvar, where='User_ID=$User_ID'))
 		
 	def get_doctors_patients(self, dID):
-		#check XREF table for rows with doctor's ID, then join with patient table
+		#check XREF table for rows with doctor's user ID, then join with patient table
 		#output array of all patient data linked to doctor
 		return list(self._db.query('''
 				SELECT *

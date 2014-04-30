@@ -1,4 +1,0 @@
-$def with (docID)
-
-You have given access rights to doctor # $docID to view your profile
-<br><a href="/">HOME</a><br />
