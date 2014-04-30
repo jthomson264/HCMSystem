@@ -12,6 +12,12 @@ def logged():
 	else:
 		return False
 
+def getRole():
+	return session['role']
+	
+def getUser():
+	return session['user_id']
+
 def getSessionData():
 	print '--'
 	print session['loggedIn']
@@ -38,7 +44,7 @@ urls = (
 	'/getPats', 'Get_Doctors_Pats',
 	'/getRec', 'Get_Pat_Records',
 	'/login', 'Login',
-        '/register', 'Register'
+	'/register', 'Register'
 )
 
 #################################################################################
@@ -63,8 +69,6 @@ session = {'loggedIn': False, 'user_id': 'None', 'role': 'None'}
 	# session = web.config._session
 	# print 'no'#debug
 
-setSessionData(False, 'Nick', 'patient')#debug
-
 #################################################################################
 ### Define Forms
 selDocForm = form.Form( form.Textbox("Please enter selected Doctor ID") )
@@ -82,12 +86,12 @@ class Index:
 class Select_Doctor:
 	def GET(self):
 		if logged():
-			if session['role']=='patient':
+			if getRole() == 'patient':
 				form_data = selDocForm()
 				doc_data = model.get_all_doctors()
 				return render.selDoc(form=form_data, doctors=doc_data)
 			else:
-				return render.permErr('patient', session['role'])
+				return render.permErr('patient', getRole())
 		else:
 			return render.login()
 
@@ -147,11 +151,10 @@ class Login:
 class Get_Doctors_Pats:
 	def GET(self):
 		if logged():
-			if session['role']=='patient':
-				# TODO: get doctor ID (dID) from the session(?) are we using sessions?
-				pat_data = model.get_doctors_patients(session['user_id'])
+			if getRole() == 'doctor':			
+				pat_data = model.get_doctors_patients(getUser())
 			else:
-				return render.patientlist(patients=pat_data)
+				return render.permErr('Doctor', getRole())
 		else:
 			return render.login()
 
@@ -159,11 +162,15 @@ class Get_Doctors_Pats:
 class Get_Pat_Records:
 	def GET(self):
 		if logged():
-			med_data = model.get_medical_records(session['user_id'])
-			return render.medrecords(records=med_data)
+			if getRole() == 'doctor':
+				med_data = model.get_medical_records(session['user_id'])
+				return render.medrecords(records=med_data)
+			else:
+				return render.PermErr('Doctor', getRole())
 		else:
 			return render.login()
-		
+
+#####################################			
 application = app.wsgifunc()
 
 #################################################################################
