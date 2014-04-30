@@ -84,6 +84,7 @@ class Index:
 		else:
 			return render.login()
 #####################################
+### Use Case: Patient wants to view his list of doctors and select one to add 
 class Select_Doctor:
 	def GET(self):
 		if logged():
@@ -153,7 +154,8 @@ class Logout:
 		setSessionData(False, 'None', 'None')
 		return render.login()
 #####################################
-class Get_Doctors_Pats:
+### Use Case: Doctor wants to view his list of patients 
+class Get_Doctors_Pats: 
 	def GET(self):
 		if logged():
 			if getRole() == 'doctor':			
@@ -164,18 +166,26 @@ class Get_Doctors_Pats:
 			return render.login()
 
 #####################################
+### Use Case: Doctor wants to view his patient's medical records
 class Get_Pat_Records:
 	def GET(self):
 		if logged():
 			if getRole() == 'doctor':
-				med_data = model.get_medical_records(session['user_id'])
+				med_data = model.get_medical_records(getUser())
 				return render.medrecords(records=med_data)
 			else:
 				return render.PermErr('Doctor', getRole())
 		else:
 			return render.login()
 
-#####################################			
+#####################################
+### Use Case: Patient wants to view his own medical records
+class Get_My_Pat_Records:
+		# TODO
+		return
+
+#################################################################################
+### idk what this does I got it from some example code - if it aint broke dont fix it!
 application = app.wsgifunc()
 
 #################################################################################
