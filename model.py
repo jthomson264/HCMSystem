@@ -36,7 +36,7 @@ class HCMS_Model:
 	def get_password(self, User_ID):
 		myvar = dict(User_ID=User_ID)
 		print myvar
-		return self._db.select('Hashes',myvar, where='User_ID=$User_ID')
+		return list(self._db.select('Hashes',myvar, where='User_ID=$User_ID'))
 		
 	def get_doctors_patients(self, dID):
 		#check XREF table for rows with doctor's ID, then join with patient table

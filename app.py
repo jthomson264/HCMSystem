@@ -122,6 +122,9 @@ class Login:
 		print pID
 		print i
 		passData = model.get_password(pID)
+		if passData:
+			x='doingnothing'
+		else: return render.noUser()
 		passData = passData[0]
 		salt = passData.Salt
 		
@@ -132,10 +135,11 @@ class Login:
 		# check = authdb.execute('select * from Hashes where SSN=? and Hash=?', (i.username, pwdhash))
 		check = (pwdhash == passData.Hash)
 		if check: 
-			session.logged_in = True
+			#session.logged_in = True
 			#session.username = i.username
-			raise web.seeother('/results')   
-		else: return render.base("Those login details don't work.")   
+			session['loggedIn']=1
+			raise web.seeother('/')   
+		else: return render.incorrectPass()   
 		# TODO : put login routine here
 		return render.index()
 		
