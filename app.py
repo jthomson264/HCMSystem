@@ -42,7 +42,7 @@ urls = (
 	'/', 'Index',
 	'/selDoc', 'Select_Doctor',
 	'/getPats', 'Get_Doctors_Pats',
-	'/getRec', 'Get_Pat_Records',
+	'/getRec', 'Get_Doctors_Pats_Records',
 	'/login', 'Login',
 	'/register', 'Register',
 	'/logout', 'Logout'
@@ -72,7 +72,7 @@ session = {'loggedIn': False, 'user_id': 'None', 'role': 'None'}
 
 #################################################################################
 ### Define Forms
-selDocForm = form.Form( form.Textbox("Please enter selected Doctor ID") )
+selDocForm = form.Form( form.Textbox("Please enter selected Doctor License ID") )
 
 #################################################################################
 ### Define classes
@@ -100,10 +100,10 @@ class Select_Doctor:
 
 	def POST(self): 
 		form_data = selDocForm()
-		if not form_data.validates(): 
+		if not form_data.validates(): # required to work but should never go here due to lack of validation code
 			return render.selDoc(form=form_data, doctors=doc_data)
 		else:
-			return  render.selDocNotify(form_data['Please enter selected Doctor ID'].value)
+			return  render.selDocNotify(form_data['Please enter selected Doctor License ID'].value)
 #####################################
 class Register:
 	def GET(self):
@@ -116,6 +116,7 @@ class Register:
 		#i.password = 'password12345' #i.password
 		
 		model.insert_Password(i.user,salt,myhash)
+		setSessionData(True, i.user, 'None')
 		return render.index()
 #####################################	
 		
@@ -142,9 +143,7 @@ class Login:
 		# check = authdb.execute('select * from Hashes where SSN=? and Hash=?', (i.username, pwdhash))
 		check = (pwdhash == passData.Hash)
 		if check: 
-			#session.logged_in = True
-			#session.username = i.username
-			session['loggedIn']=1
+			setSessionData(True, i.user, 'None') # TODO : NEED TO GET ROLE SOMEHOW
 			raise web.seeother('/')   
 		else: return render.incorrectPass()   
 		# TODO : put login routine here
@@ -161,6 +160,7 @@ class Get_Doctors_Pats:
 		if logged():
 			if getRole() == 'doctor':			
 				pat_data = model.get_doctors_patients(getUser())
+				return render.patientlist(pat_data)
 			else:
 				return render.permErr('Doctor', getRole())
 		else:
@@ -168,11 +168,11 @@ class Get_Doctors_Pats:
 
 #####################################
 ### Use Case: Doctor wants to view his patient's medical records
-class Get_Pat_Records:
+class Get_Doctors_Pats_Records:
 	def GET(self):
 		if logged():
 			if getRole() == 'doctor':
-				med_data = model.get_medical_records(getUser())
+				med_data = model.get_pat_medical_records(getUser())
 				return render.medrecords(records=med_data)
 			else:
 				return render.PermErr('Doctor', getRole())
