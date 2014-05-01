@@ -116,6 +116,7 @@ class Register:
 		#i.password = 'password12345' #i.password
 		
 		model.insert_Password(i.user,salt,myhash)
+		setSessionData(True, i.user, 'None')
 		return render.index()
 #####################################	
 		
