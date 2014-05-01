@@ -1,23 +1,21 @@
 $def with (records)
 
-<h2>List of Doctors:</h2>
+<h2>List of your Patient's Medical Records:</h2>
 <table>
 	<tr>
        	<td>Record_ID | </td>
-        <td>Patient_ID | </td>
+        <td>Patient_SSN | </td>
         <td>Patient_Record | </td>
         <td>Date_Created | </td>
-		<td>Last_Updated_By | </td>
-		<td>Last_Updated_Date | <td>
+		<td>Doctor_Note<td>
     </tr>
 $for r in records:
     <tr>
        	<td>$r.Record_ID</td>
-        <td>$r.Patient_ID</td>
+        <td>$r.Patient_SSN</td>
         <td>$r.Patient_Record</td>
         <td>$r.Date_Created</td>
-		<td>$r.Last_Updated_By</td>
-		<td>$r.Last_Updated_Date<td>
+		<td>$r.Doctor_Note<td>
     </tr>
 </table>
 
