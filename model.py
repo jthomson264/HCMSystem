@@ -48,8 +48,20 @@ class HCMS_Model:
 				and
 				XRef_Pat_Doc.Doctor_Lic_No=Doctor.Doctor_Lic_No
 				and
-				Doctor.Doctor_UserID like \'''' + dID + '''\'''')
-					)
+				Doctor.Doctor_UserID like \'''' + dID + '''\''''
+			)
+		)
 
-	def get_pat_medical_data(self, docUserId):
-		return list(self._db.select('Medical_Record', where='SSN=$patSsn'))
+	def get_pat_medical_records(self, docUserId):
+		return list(self._db.query('''
+				Select * from Medical_Record
+				join Patient,XRef_Pat_Doc,Doctor
+				where Medical_Record.Patient_SSN=Patient.SSN
+				and
+				Patient.SSN=XRef_Pat_Doc.Patient_SSN
+				and
+				XRef_Pat_Doc.Doctor_Lic_No=Doctor.Doctor_Lic_No
+				and
+				Doctor.Doctor_UserID like \'''' + docUserId + '''\''''
+			)
+		)

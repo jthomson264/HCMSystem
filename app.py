@@ -80,7 +80,7 @@ selDocForm = form.Form( form.Textbox("Please enter selected Doctor License ID") 
 class Index:
 	def GET(self):
 		if logged():
-			#session['role']='doctor' # DEBUG
+			session['role']='doctor' # DEBUG
 			return render.index()
 		else:
 			return render.login()
