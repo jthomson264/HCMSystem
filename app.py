@@ -3,6 +3,8 @@ from model import HCMS_Model
 from web import form
 import random
 import hashlib
+import base64
+import uuid
 
 #################################################################################
 ### Helper Functions
@@ -111,6 +113,7 @@ class Register:
 	def POST(self):
 		i = web.input()
 		salt = 'not random yet'
+		salt = base64.urlsafe_b64encode(uuid.uuid4().bytes)
 		myhash = hashlib.md5(i.passwd+salt).hexdigest()
 		#i.username = 'James' #i.username
 		#i.password = 'password12345' #i.password
