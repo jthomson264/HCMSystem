@@ -36,8 +36,8 @@ def setSessionData(log, user, role):
 
 #################################################################################
 ### Set HTML template folder
-render = web.template.render('templates/', base='layout')
-render_plain = web.template.render('templates/')
+render = web.template.render('templates/', base='layoutlogged')
+render_plain = web.template.render('templates/', base='layoutNotLogged')
 #################################################################################
 ### Register URLs
 urls = (
