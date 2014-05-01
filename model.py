@@ -29,10 +29,14 @@ class HCMS_Model:
 	def get_all_patients(self):
 		return list(self._db.select('Patient'))
 
-	def link_patient_doctor(self, pID, dID):
-		return self._db.insert('XRef_Pat_Doc', Patient_ID=pID, Doctor_ID=dID)
+	def link_patient_doctor(self, pID, dLicNum):
+		return self._db.query('''
+		
+		''')
+		
 	def insert_Password(self, username, salt, myhash):
 		return self._db.insert('Hashes', User_ID=username, Salt=salt, Hash=myhash)
+		
 	def get_password(self, User_ID):
 		myvar = dict(User_ID=User_ID)
 		print myvar

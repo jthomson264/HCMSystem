@@ -105,6 +105,7 @@ class Select_Doctor:
 		if not form_data.validates(): # required to work but should never go here due to lack of validation code
 			return render.selDoc(form=form_data, doctors=doc_data)
 		else:
+			model.link_patient_doctor(getUser(), form_data['Please enter selected Doctor License ID'].value)
 			return  render.selDocNotify(form_data['Please enter selected Doctor License ID'].value)
 #####################################
 class Register:
