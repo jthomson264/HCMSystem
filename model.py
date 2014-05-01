@@ -42,13 +42,14 @@ class HCMS_Model:
 		#check XREF table for rows with doctor's user ID, then join with patient table
 		#output array of all patient data linked to doctor
 		return list(self._db.query('''
-				SELECT *
-				FROM Patient
-				WHERE Patient_ID in (
-					SELECT Patient_ID
-					FROM XRef_Pat_Doc
-					WHERE Doctor_ID = ''' + dID + ')')
+				Select * from Patient
+				join XRef_Pat_Doc,Doctor
+				where XRef_Pat_Doc.Patient_SSN=Patient.SSN
+				and
+				XRef_Pat_Doc.Doctor_Lic_No=Doctor.Doctor_Lic_No
+				and
+				Doctor.Doctor_UserID like \'''' + dID + '''\'''')
 					)
 
-	def get_medical_data(self, patSsn):
+	def get_pat_medical_data(self, docUserId):
 		return list(self._db.select('Medical_Record', where='SSN=$patSsn'))
