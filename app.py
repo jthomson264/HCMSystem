@@ -36,8 +36,8 @@ def setSessionData(log, user, role):
 
 #################################################################################
 ### Set HTML template folder
-render = web.template.render('templates/')
-
+render = web.template.render('templates/', base='layout')
+render_plain = web.template.render('templates/')
 #################################################################################
 ### Register URLs
 urls = (
@@ -85,7 +85,7 @@ class Index:
 			session['role']='doctor' # DEBUG
 			return render.index()
 		else:
-			return render.login()
+			return render_plain.login()
 #####################################
 ### Use Case: Patient wants to view his list of doctors and select one to add 
 class Select_Doctor:
@@ -98,7 +98,7 @@ class Select_Doctor:
 			else:
 				return render.permErr('Patient', getRole())
 		else:
-			return render.login()
+			return render_plain.login()
 
 	def POST(self): 
 		form_data = selDocForm()
@@ -109,7 +109,7 @@ class Select_Doctor:
 #####################################
 class Register:
 	def GET(self):
-		return render.register()
+		return render_plain.register()
 	def POST(self):
 		i = web.input()
 		salt = 'not random yet'
@@ -125,7 +125,7 @@ class Register:
 		
 class Login:
 	def GET(self):
-		return render.login()
+		return render_plain.login()
 		
 	def POST(self):
 		i = web.input()
@@ -135,7 +135,7 @@ class Login:
 		passData = model.get_password(pID)
 		if passData:
 			x='doingnothing'
-		else: return render.noUser()
+		else: return render_plain.noUser()
 		passData = passData[0]
 		salt = passData.Salt
 		
@@ -148,14 +148,14 @@ class Login:
 		if check: 
 			setSessionData(True, i.user, 'None') # TODO : NEED TO GET ROLE SOMEHOW
 			raise web.seeother('/')   
-		else: return render.incorrectPass()   
+		else: return render_plain.incorrectPass()   
 		# TODO : put login routine here
 		return render.index()
 #####################################
 class Logout:
 	def GET(self):
 		setSessionData(False, 'None', 'None')
-		return render.login()
+		return render_plain.login()
 #####################################
 ### Use Case: Doctor wants to view his list of patients 
 class Get_Doctors_Pats: 
@@ -167,7 +167,7 @@ class Get_Doctors_Pats:
 			else:
 				return render.permErr('Doctor', getRole())
 		else:
-			return render.login()
+			return render_plain.login()
 
 #####################################
 ### Use Case: Doctor wants to view his patient's medical records
@@ -180,7 +180,7 @@ class Get_Doctors_Pats_Records:
 			else:
 				return render.PermErr('Doctor', getRole())
 		else:
-			return render.login()
+			return render_plain.login()
 
 #####################################
 ### Use Case: Patient wants to view his own medical records
