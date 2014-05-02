@@ -122,8 +122,8 @@ class Register:
 		#i.username = 'James' #i.username
 		#i.password = 'password12345' #i.password
 		
-		model.insert_Password(i.user,salt,myhash)
-		setSessionData(True, i.user, 'None')
+		model.insert_Password(i.user,salt,myhash,i.role)
+		setSessionData(True, i.user, i.role)
 		return render.index()
 #####################################	
 		
@@ -150,7 +150,7 @@ class Login:
 		# check = authdb.execute('select * from Hashes where SSN=? and Hash=?', (i.username, pwdhash))
 		check = (pwdhash == passData.Hash)
 		if check: 
-			setSessionData(True, i.user, 'None') # TODO : NEED TO GET ROLE SOMEHOW
+			setSessionData(True, i.user, passData.Role) # TODO : NEED TO GET ROLE SOMEHOW
 			raise web.seeother('/')   
 		else: return render_plain.incorrectPass()   
 		# TODO : put login routine here
