@@ -31,8 +31,10 @@ class HCMS_Model:
 
 	def link_patient_doctor(self, pID, dLicNum):
 		return self._db.query('''
-		TODO
+		Insert into XRef_Pat_Doc (Patient_SSN, Doctor_Lic_No)
+		Select Patient.SSN,''' + dLicNum + ''' from Patient where Patient.Patient_UserID like \'''' + pID + '''\'
 		''')
+		#PROTOTYPE ONLY, THIS IS VULNERABLE TO INJECTION
 		
 	def insert_Password(self, username, salt, myhash,role):
 		return self._db.insert('Hashes', User_ID=username, Salt=salt, Hash=myhash, Role=role)

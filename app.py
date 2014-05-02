@@ -85,7 +85,6 @@ class Index:
 	def GET(self):
 		if logged():
 			# DEBUG ONLY PLEASE REMOVE FOR PRODUCTION
-			session['role'] = 'patient'
 			return render.index(role=getRole())
 		else:
 			return render_plain.login()
