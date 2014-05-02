@@ -46,6 +46,7 @@ urls = (
 	'/selDoc', 'Select_Doctor',
 	'/getPats', 'Get_Doctors_Pats',
 	'/getRec', 'Get_Doctors_Pats_Records',
+	'/getMyRec', 'Get_My_Pat_Records',
 	'/login', 'Login',
 	'/register', 'Register',
 	'/logout', 'Logout'
@@ -190,8 +191,15 @@ class Get_Doctors_Pats_Records:
 class Get_My_Pat_Records:
 		def GET(self):
 			# TODO
-			return
-
+			if logged():
+				if getRole() == 'patient':
+					med_data = model.get_my_medical_records(getUser())
+					return render.medrecords(records=med_data)
+				else:
+					return render.PermErr('Doctor', getRole())
+			else:
+				return render_plain.login()
+			
 #################################################################################
 ### idk what this does I got it from some example code - if it aint broke dont fix it!
 application = app.wsgifunc()

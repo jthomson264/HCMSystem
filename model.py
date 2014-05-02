@@ -31,7 +31,7 @@ class HCMS_Model:
 
 	def link_patient_doctor(self, pID, dLicNum):
 		return self._db.query('''
-		
+		TODO
 		''')
 		
 	def insert_Password(self, username, salt, myhash):
@@ -67,5 +67,14 @@ class HCMS_Model:
 				XRef_Pat_Doc.Doctor_Lic_No=Doctor.Doctor_Lic_No
 				and
 				Doctor.Doctor_UserID like \'''' + docUserId + '''\''''
+			)
+		)
+		
+	def get_my_medical_records(self, patUserId):
+		return list(self._db.query('''
+				Select * from Medical_Record join Patient 
+				where Medical_Record.Patient_SSN=Patient.SSN
+				and	
+				Patient.Patient_UserID like \'''' + patUserId + '''\''''
 			)
 		)

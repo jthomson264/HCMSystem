@@ -2,6 +2,7 @@ $def with (role)
 <h1>Healthcare Management System Homepage</h1>
 $if role == 'patient':
 	<a href="selDoc">(Patient) Search and select a Doctor</a><br />
+	<a href="getMyRec">(Patient) View my medical records</a><br />
 $if role == 'doctor':
 	<a href="getPats">(Doctor) View all my patients</a><br />
 	<a href="getRec">(Doctor) Get patient's medical records</a><br />
