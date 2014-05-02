@@ -4,7 +4,6 @@ $def with (records)
 <table>
 	<tr>
        	<td>Record_ID | </td>
-        <td>Patient_SSN | </td>
         <td>Patient_Record | </td>
         <td>Date_Created | </td>
 		<td>Doctor_Note<td>
@@ -12,7 +11,6 @@ $def with (records)
 $for r in records:
     <tr>
        	<td>$r.Record_ID</td>
-        <td>$r.Patient_SSN</td>
         <td>$r.Patient_Record</td>
         <td>$r.Date_Created</td>
 		<td>$r.Doctor_Note<td>
