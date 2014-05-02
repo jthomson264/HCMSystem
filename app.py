@@ -124,7 +124,7 @@ class Register:
 		
 		model.insert_Password(i.user,salt,myhash,i.role)
 		setSessionData(True, i.user, i.role)
-		return render.index()
+		return render.index(role=getRole())
 #####################################	
 		
 class Login:
@@ -154,7 +154,7 @@ class Login:
 			raise web.seeother('/')   
 		else: return render_plain.incorrectPass()   
 		# TODO : put login routine here
-		return render.index()
+		return render.index(role=getRole())
 #####################################
 class Logout:
 	def GET(self):
