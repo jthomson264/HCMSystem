@@ -34,8 +34,8 @@ class HCMS_Model:
 		TODO
 		''')
 		
-	def insert_Password(self, username, salt, myhash):
-		return self._db.insert('Hashes', User_ID=username, Salt=salt, Hash=myhash)
+	def insert_Password(self, username, salt, myhash,role):
+		return self._db.insert('Hashes', User_ID=username, Salt=salt, Hash=myhash, Role=role)
 		
 	def get_password(self, User_ID):
 		myvar = dict(User_ID=User_ID)
