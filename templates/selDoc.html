@@ -15,11 +15,15 @@ $for d in doctors:
         <td>$d.Doctor_Name</td>
         <td>$d.Doctor_Address</td>
         <td>$d.Doctor_Phone</td>
-		<td>$d.Specialization</td>
+        <td>$d.Specialization</td>
     </tr>
 </table>
+<br><br><br>
+<h4>Please Select a Doctor to Add!</h4>
+<form action="/selDoc" method="POST">
+$for d in doctors:
+        <input type="radio" name="Doctor_Lic_No" value="$d.Doctor_Lic_No">
+        $d.Doctor_Name<br>
 
-<form name="main" method="post"> 
-$:form.render()
-<input type="submit" />
+<input type="submit" value="Add" />
 </form>

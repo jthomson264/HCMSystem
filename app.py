@@ -102,13 +102,14 @@ class Select_Doctor:
 		else:
 			return render_plain.login()
 
-	def POST(self): 
-		form_data = selDocForm()
-		if not form_data.validates(): # required to work but should never go here due to lack of validation code
-			return render.selDoc(form=form_data, doctors=doc_data)
-		else:
-			model.link_patient_doctor(getUser(), form_data['Please enter selected Doctor License ID'].value)
-			return  render.selDocNotify(form_data['Please enter selected Doctor License ID'].value)
+	def POST(self):
+		i = web.input()
+		
+		# if not form_data.validates(): # required to work but should never go here due to lack of validation code
+			# return render.selDoc(form=form_data, doctors=doc_data)
+		# else:
+		model.link_patient_doctor(getUser(), i.Doctor_Lic_No)
+		return  render.selDocNotify(i.Doctor_Lic_No)
 #####################################
 class Register:
 	def GET(self):
@@ -133,8 +134,6 @@ class Login:
 	def POST(self):
 		i = web.input()
 		pID = i.user
-		print pID
-		print i
 		passData = model.get_password(pID)
 		if passData:
 			x='doingnothing'
@@ -144,7 +143,7 @@ class Login:
 		
 		pwdhash = hashlib.md5(i.passwd+salt).hexdigest()
 		
-		
+	
 		
 		# check = authdb.execute('select * from Hashes where SSN=? and Hash=?', (i.username, pwdhash))
 		check = (pwdhash == passData.Hash)

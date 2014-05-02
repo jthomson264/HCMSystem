@@ -41,7 +41,6 @@ class HCMS_Model:
 		
 	def get_password(self, User_ID):
 		myvar = dict(User_ID=User_ID)
-		print myvar
 		return list(self._db.select('Hashes',myvar, where='User_ID=$User_ID'))
 		
 	def get_doctors_patients(self, dID):
