@@ -19,7 +19,13 @@ $for d in doctors:
     </tr>
 </table>
 <br><br><br>
-<h4>Please Select a Doctor to Add!</h4>
+<h4>If you would like give a specific doctor permission to access your medical records, please select a doctor from the list below and click add!
+<br><h5>WARNING: This will reveal private medical records, please double check that you are selecting the right doctor!</h5>
+
+</h4>
+
+<br>
+<br>
 <form action="/selDoc" method="POST">
 $for d in doctors:
         <input type="radio" name="Doctor_Lic_No" value="$d.Doctor_Lic_No">
