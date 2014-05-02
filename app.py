@@ -15,7 +15,7 @@ def logged():
 		return False
 
 def getRole():
-	print session['role']
+	#print session['role']
 	return session['role']
 	
 def getUser():
