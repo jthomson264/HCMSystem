@@ -9,30 +9,35 @@ import uuid
 #################################################################################
 ### Helper Functions
 def logged():
-	if session['loggedIn']==1:
+	if session2.loggedIn == True:#if session['loggedIn']==1:
+        
 		return True
 	else:
 		return False
 
 def getRole():
 	#print session['role']
-	return session['role']
+	#return session['role']
+        return session2.role
 	
 def getUser():
-	return session['user_id']
+	return session2.user_id#session['user_id']
 
 def getSessionData():
 	print '--'
-	print session['loggedIn']
-	print session['user_id']
-	print session['role']
+	print session2.loggedIn #session['loggedIn']
+	print session2.useer_id #session['user_id']
+	print session2.role #session['role']
 	print '--'
 	return
 
 def setSessionData(log, user, role):
-	session['loggedIn'] = log
-	session['user_id'] = user
-	session['role'] = role
+	#session['loggedIn'] = log
+	session2.loggedIn = log
+	#session['user_id'] = user
+	session2.user_id = user
+	#session['role'] = role
+	session2.role = role
 	return
 
 #################################################################################
@@ -64,15 +69,16 @@ model = HCMS_Model(db)
 #################################################################################
 ### Initialize the session
 # sessions wasnt working so using a regular dictionary to store data...
-session = {'loggedIn': False, 'user_id': 'None', 'role': 'None'}
-#store = web.session.DiskStore('sessions')
-# if web.config.get('_session') is None:
-	# session = web.session.Session(app, store, initializer={'loggedIn': False, 'user_id': 'None', 'role': 'None'})
-	# web.config._session = session
-	# print 'yes'#debug
-# else:
-	# session = web.config._session
-	# print 'no'#debug
+#session = {'loggedIn': False, 'user_id': 'None', 'role': 'None'}
+store = web.session.DiskStore('sessions')
+if web.config.get('_session') is None:
+	 session2 = web.session.Session(app, store, initializer={'loggedIn': False, 'user_id': 'None', 'role': 'None'})
+	 web.config._session = session2
+	 
+	 print 'yes'#debug
+else:
+	 session2 = web.config._session
+	 print 'no'#debug
 
 #################################################################################
 ### Define Forms
@@ -83,6 +89,8 @@ selDocForm = form.Form( form.Textbox("Please enter selected Doctor License ID") 
 #################################################################################
 class Index:
 	def GET(self):
+		print session2.loggedIn
+		print session2.user_id
 		if logged():
 			# DEBUG ONLY PLEASE REMOVE FOR PRODUCTION
 			return render.index(role=getRole())
@@ -132,6 +140,9 @@ class Login:
 		return render_plain.login()
 		
 	def POST(self):
+		print session2.loggedIn
+		
+		
 		i = web.input()
 		pID = i.user
 		passData = model.get_password(pID)
@@ -148,7 +159,12 @@ class Login:
 		# check = authdb.execute('select * from Hashes where SSN=? and Hash=?', (i.username, pwdhash))
 		check = (pwdhash == passData.Hash)
 		if check: 
+			#session2.loggedIn = True
+			print session2.user_id
+			#session2.user_id = i.user
+			
 			setSessionData(True, i.user, passData.Role) # TODO : NEED TO GET ROLE SOMEHOW
+			print session2.user_id
 			raise web.seeother('/')   
 		else: return render_plain.incorrectPass()   
 		# TODO : put login routine here
