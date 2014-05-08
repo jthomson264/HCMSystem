@@ -197,6 +197,20 @@ class Get_My_Pat_Records:
 					return render.PermErr('Doctor', getRole())
 			else:
 				return render_plain.login()
+				
+#####################################
+### Use Case: Admin uploads a patient record
+class Get_My_Pat_Records:
+		def GET(self):
+			# TODO
+			if logged():
+				if getRole() == 'patient':
+					med_data = model.get_my_medical_records(getUser())
+					return render.medrecords(records=med_data)
+				else:
+					return render.PermErr('Doctor', getRole())
+			else:
+				return render_plain.login()
 			
 #################################################################################
 ### idk what this does I got it from some example code - if it aint broke dont fix it!
