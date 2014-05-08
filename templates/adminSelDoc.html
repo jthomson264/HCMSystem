@@ -1,0 +1,32 @@
+$def with (doctors)
+
+<h2>List of Doctors you Administer:</h2>
+<table>
+	<tr>
+		<td>Doctor_Lic_ID | </td>
+		<td>Doctor_Name | </td>
+		<td>Doctor_Address | </td>
+		<td>Doctor_Phone | </td>
+		<td>Sepcialization</td>
+	</tr>
+$for d in doctors:
+	<tr>
+		<td>$d.Doctor_Lic_No</td>
+		<td>$d.Doctor_Name</td>
+		<td>$d.Doctor_Address</td>
+		<td>$d.Doctor_Phone</td>
+		<td>$d.Specialization</td>
+	</tr>
+</table>
+
+<h4>
+Please select one of your doctors from the list below to view their patients:
+</h4>
+
+<form action="/adminSelDoc" method="POST">
+$for d in doctors:
+		<input type="radio" name="Doctor_Lic_No" value="$d.Doctor_Lic_No">
+		$d.Doctor_Name<br>
+
+<input type="submit" value="Select" />
+</form>

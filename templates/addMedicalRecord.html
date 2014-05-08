@@ -1,0 +1,22 @@
+$def with (patientSSN)
+
+<h1>Adding Medical Record for the selected patient</h1>
+
+<form action="/addMedRec" method="POST">
+    <table id="add medical records">
+        <tr>
+            <td>Patient Record: </td>
+            <td><input type="text" name="rec"></td>
+        </tr>
+        <tr>
+            <td>Doctor's Note: </td>
+            <td><input type="text" name="note"></td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Submit"></td>
+        </tr>
+    </table>
+	<input type="hidden" name="Patient_SSN" value="$patientSSN" />
+</form>

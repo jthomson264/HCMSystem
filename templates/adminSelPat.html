@@ -1,0 +1,40 @@
+$def with (patients)
+
+<h2>List of Patients for this Doctor:</h2>
+<table>
+    <tr>
+        <td>Patient_Name | </td>
+		<td>Patient_DOB | </td>
+        <td>Patient_Address | </td>
+		<td>Patient_Phone | </td>
+        <td>Emergency_Contact | </td>
+		<td>Sex | </td>
+		<td>Insurance_Type | </td>
+		<td>Age | </td>
+		<td>Medical_Condition</td>
+    </tr>
+$for p in patients:
+    <tr>
+        <td>$p.Patient_Name</td>
+		<td>$p.Patient_DOB</td>
+        <td>$p.Patient_Address</td>
+		<td>$p.Patient_Phone</td>
+		<td>$p.Emergency_Contact</td>
+        <td>$p.Sex</td>
+		<td>$p.Insurance_Type</td>
+		<td>$p.Age</td>
+		<td>$p.Medical_Condition</td>
+    </tr>
+</table>
+
+<h4>
+Please select one of the patients from the list below add a medical record to their account:
+</h4>
+
+<form action="/adminSelPat" method="POST">
+$for p in patients:
+		<input type="radio" name="Patient_SSN" value="$p.Patient_SSN">
+		$p.Patient_Name<br>
+
+<input type="submit" value="Select" />
+</form>

@@ -79,3 +79,21 @@ class HCMS_Model:
 				Patient.Patient_UserID like \'''' + patUserId + '''\''''
 			)
 		)
+		
+	def get_admins_doctors(self, adminUserId):
+		return list(self._db.query('''
+				SELECT * FROM Doctor 
+				JOIN Admin ON Doctor.Admin_ID = Admin.Admin_ID
+				WHERE Admin_UserID = \'''' + adminUserId + '''\''''	
+			)
+		)
+	def get_doctors_pats_by_lic_num(self, dLic):
+		return list(self._db.query('''
+				Select * from Patient
+				join XRef_Pat_Doc
+				WHERE XRef_Pat_Doc.Doctor_Lic_No=''' + dLic
+			)
+		)
+		
+	def add_med_rec(self, patSSN, patRec, patNote):
+		return self._db.insert('Medical_Record', Patient_SSN=patSSN, Patient_Record=patRec, Doctor_Note=patNote)

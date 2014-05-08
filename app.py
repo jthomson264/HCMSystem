@@ -49,6 +49,9 @@ render_plain = web.template.render('templates/', base='layoutNotLogged')
 urls = (
 	'/', 'Index',
 	'/selDoc', 'Select_Doctor',
+	'/adminSelDoc', 'Get_Admins_Doc_Records',
+	'/adminSelPat', 'Admin_Sel_Pat',
+	'/addMedRec', 'Add_Medical_Record',
 	'/getPats', 'Get_Doctors_Pats',
 	'/getRec', 'Get_Doctors_Pats_Records',
 	'/getMyRec', 'Get_My_Pat_Records',
@@ -203,30 +206,53 @@ class Get_Doctors_Pats_Records:
 #####################################
 ### Use Case: Patient wants to view his own medical records
 class Get_My_Pat_Records:
-		def GET(self):
-			# TODO
-			if logged():
-				if getRole() == 'patient':
-					med_data = model.get_my_medical_records(getUser())
-					return render.medrecords(records=med_data)
-				else:
-					return render.PermErr('Doctor', getRole())
+	def GET(self):
+		# TODO
+		if logged():
+			if getRole() == 'patient':
+				med_data = model.get_my_medical_records(getUser())
+				return render.medrecords(records=med_data)
 			else:
-				return render_plain.login()
+				return render.PermErr('Doctor', getRole())
+		else:
+			return render_plain.login()
 				
 #####################################
-### Use Case: Admin uploads a patient record
-class Get_My_Pat_Records:
-		def GET(self):
-			# TODO
-			if logged():
-				if getRole() == 'patient':
-					med_data = model.get_my_medical_records(getUser())
-					return render.medrecords(records=med_data)
-				else:
-					return render.PermErr('Doctor', getRole())
+### Use Case: Admin chooses their docs, then chooses their patient, then uploads a patient record
+class Get_Admins_Doc_Records:
+	def GET(self):
+		if logged():
+			if getRole() == 'admin':
+				doc_data = model.get_admins_doctors(getUser())
+				return render.adminSelDoc(doctors=doc_data)
 			else:
-				return render_plain.login()
+				return render.PermErr('admin', getRole())
+		else:
+			return render_plain.login()
+	
+	def POST(self):
+		i = web.input()
+		pat_data = model.get_doctors_pats_by_lic_num(i.Doctor_Lic_No)
+		return  render.adminSelPat(pat_data)
+
+class Admin_Sel_Pat:
+	def GET(self):
+		# NONE - IF WE GO HERE THERE WAS AN ERROR
+		return 	render.index(role=getRole())
+		
+	def POST(self):
+		i = web.input()
+		return render.addMedicalRecord(i.Patient_SSN)
+
+class Add_Medical_Record:
+	def GET(self):
+		# NONE - IF WE GO HERE THERE WAS AN ERROR
+		return
+		
+	def POST(self):
+		i = web.input()
+		model.add_med_rec(i.Patient_SSN, i.rec, i.note)
+		return render.index(role=getRole())
 			
 #################################################################################
 ### idk what this does I got it from some example code - if it aint broke dont fix it!
