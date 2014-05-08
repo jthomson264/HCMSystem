@@ -3,13 +3,15 @@ $def with (records)
 <h2>List of Patient's Medical Records:</h2>
 <table>
 	<tr>
-       	<td>Record_ID | </td>
+       	<td>Patient_Name | <td>
+		<td>Record_ID | </td>
         <td>Patient_Record | </td>
         <td>Date_Created | </td>
 		<td>Doctor_Note<td>
     </tr>
 $for r in records:
     <tr>
+		<td>$r.Patient_Name</td>
        	<td>$r.Record_ID</td>
         <td>$r.Patient_Record</td>
         <td>$r.Date_Created</td>

@@ -67,7 +67,7 @@ class HCMS_Model:
 				and
 				XRef_Pat_Doc.Doctor_Lic_No=Doctor.Doctor_Lic_No
 				and
-				Doctor.Doctor_UserID like \'''' + docUserId + '''\''''
+				Doctor.Doctor_UserID like \'''' + docUserId + '''\' ORDER BY Patient.Patient_Name'''
 			)
 		)
 		
